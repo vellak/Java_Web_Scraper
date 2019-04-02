@@ -1,6 +1,6 @@
 package Backend;
 
-class WebsiteDetails {
+public class WebsiteDetails {
 
     String URL;
     String HTMLCode;
