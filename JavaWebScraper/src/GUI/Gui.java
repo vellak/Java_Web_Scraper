@@ -4,6 +4,7 @@ import Backend.Scraper;
 import Backend.WebsiteDetails;
 
 import javax.swing.*;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 public class Gui  extends JFrame{
@@ -32,7 +33,7 @@ public class Gui  extends JFrame{
         int finalDepthValue = depthValue;
         Search.addActionListener(e -> {
             Backend.Scraper scraper = new Scraper();
-                    scraper.Scrape(URL.getText(), finalDepthValue);
+                    scraper.Scrape(URL.getText(), finalDepthValue, 0);
                 }
         );
         CSVButton.addActionListener(e -> {
