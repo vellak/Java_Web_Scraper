@@ -1,8 +1,4 @@
 import Backend.Scraper;
-import GUI.Gui;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class Main {
 
@@ -12,10 +8,7 @@ public class Main {
         Scraper scraper = new Scraper();
 
 
-        try {
-            scraper.Scrape("http://reddit.com/", 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Running Scraper");
+        scraper.Scrape("https://www.youtube.com/", 1);
     }
 }

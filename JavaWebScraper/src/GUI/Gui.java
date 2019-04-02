@@ -32,11 +32,7 @@ public class Gui  extends JFrame{
         int finalDepthValue = depthValue;
         Search.addActionListener(e -> {
             Backend.Scraper scraper = new Scraper();
-                    try {
-                        scraper.Scrape(URL.getText(), finalDepthValue);
-                    } catch (MalformedURLException ex) {
-                        ex.printStackTrace();
-                    }
+                    scraper.Scrape(URL.getText(), finalDepthValue);
                 }
         );
         CSVButton.addActionListener(e -> {
