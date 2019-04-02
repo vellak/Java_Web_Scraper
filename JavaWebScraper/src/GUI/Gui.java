@@ -1,11 +1,10 @@
 package GUI;
 
 import Backend.Scraper;
-import Backend.WebsiteDetails;
 
 import javax.swing.*;
-import java.io.IOException;
-import java.net.MalformedURLException;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 public class Gui  extends JFrame{
     private JPanel RootPanel;
@@ -14,26 +13,37 @@ public class Gui  extends JFrame{
     private JTextField URL;
     private JTextField DepthOfSearch;
     private JEditorPane DataDisplay;
+    private JTextField searchString;
 
     public Gui(){
 
         add(RootPanel);
+
         setTitle("Web Backend.Scraper By Keith Vella");
         setSize(400,500);
 
-        int depthValue  = 0;
-        try {
-            depthValue =   Integer.parseInt(DepthOfSearch.getText());
-        }catch (NumberFormatException e){
-                // error message
-                JOptionPane.showMessageDialog(null, "Enter a number!", "Input Error",JOptionPane.WARNING_MESSAGE);
-        }
-        // actions for buttons
 
-        int finalDepthValue = depthValue;
+        DepthOfSearch.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                DoSWarning();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                //DoSWarning();
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                DoSWarning();
+            }
+        });
         Search.addActionListener(e -> {
-            Backend.Scraper scraper = new Scraper();
-                    scraper.Scrape(URL.getText(), finalDepthValue, 0);
+            Scraper scraper = new Scraper();
+
+                    System.out.println(URL.getText() + " URL TEXT");
+                    scraper.Scrape(URL.getText(), Integer.parseInt(DepthOfSearch.getText()),0);
                 }
         );
         CSVButton.addActionListener(e -> {
@@ -41,13 +51,23 @@ public class Gui  extends JFrame{
         });
 
     }
-    public void PopulateDataDisplay(WebsiteDetails website){
-
-    }
     private void CSVMethod() {
 
     }
 
+    private void DoSWarning(){
+
+        try{
+            if (Integer.parseInt(DepthOfSearch.getText()) <1 )
+            {
+                JOptionPane.showMessageDialog(null, "Enter a Positive number!", "Input Error",JOptionPane.ERROR_MESSAGE);
+            }
+        }catch (NumberFormatException e){
+            JOptionPane.showMessageDialog(null, "Enter a number!", "Input Error",JOptionPane.ERROR_MESSAGE);
+        }
+
+
+    }
 
 }
 
