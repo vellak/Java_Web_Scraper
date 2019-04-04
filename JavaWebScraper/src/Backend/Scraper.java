@@ -6,7 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,8 @@ import java.util.List;
 /**
  * The type Scraper.
  */
-public class Scraper {
+public class Scraper
+{
 
 
     private List<String> listOfWebsitesVisited = new ArrayList<>();
@@ -27,26 +28,26 @@ public class Scraper {
     /**
      * Scrape.
      *
-     * @param text              the text
-     * @param depthOfSearchText the depth of search text
+     * @param URL               the URL
+     * @param depthOfSearchText the depth of search URL
      * @param searchString      the search string
      * @param currentDepth      the current depth
      */
-    public void Scrape(String text, int depthOfSearchText,String searchString, int currentDepth)
+    public void Scrape(String URL, int depthOfSearchText, String searchString, int currentDepth)
     {
-        System.out.println("Activated the Scraper");
         try
         {
-            System.out.println("inside the Try catch");
-            Document doc = Jsoup.parse(new URL(text),4000);
-            Elements resultLinks  = doc.select("a[href]");
+            BufferedReader br = new BufferedReader(new InputStreamReader(new URL(URL).openStream()));
 
+            String line;
+            while ((line = br.readLine()) != null)
+            {
+                GetSearchString(line, searchString, depthOfSearchText, URL);
+                getLinks(line,depthOfSearchText, searchString, currentDepth);
+            }
 
-            GetSearchString(doc, searchString, depthOfSearchText, text);
-
-            getLinks(depthOfSearchText, searchString, currentDepth, resultLinks);
-        }
-        catch (IOException e)
+            br.close();
+        } catch (IOException e)
         {
             e.printStackTrace();
         }
@@ -57,43 +58,37 @@ public class Scraper {
      *
      * @return the search string list
      */
-    public List<SearchStringDetails> getSearchStringList() {
+    public List<SearchStringDetails> getSearchStringList()
+    {
 
         return searchStringList;
     }
 
-    public List<String> getListOfWebsitesVisited() {
+    public List<String> getListOfWebsitesVisited()
+    {
         return listOfWebsitesVisited;
     }
 
-    private void getLinks(int depthOfSearchText, String searchString, int currentDepth, @NotNull Elements resultLinks) {
-        for (Element link : resultLinks)
+    private void getLinks(String line, int depthOfSearchText, String searchString, int currentDepth)
+    {
+        String href = HTMLParser.ParseHtmlLink(line);
+        System.out.println(href);
+        listOfWebsitesVisited.add(href);
+        // Calls search within the next depth of searches;
+        if (currentDepth < depthOfSearchText)
         {
-
-            String href = link.attr("href");
-
-            if ((href.contains("https://") ||href.contains("http://"))&& currentDepth < depthOfSearchText && !listOfWebsitesVisited.contains(href))
-            {
-
-                // System.out.println("Title: " + link.text() + " Depth Search = " + currentDepth);
-               // System.out.println("Url: " + href);
-                listOfWebsitesVisited.add(href);
-                // Calls search within the next depth of searches;
-                Scrape(href, depthOfSearchText, searchString,currentDepth +1);
-            }
+            Scrape(href, depthOfSearchText, searchString, currentDepth + 1);
         }
     }
 
-    private void GetSearchString(@NotNull Document doc, String searchString, int depth, String url) {
-        for (Element result:doc.getElementsByTag("p"))
+    private void GetSearchString(String line, String searchString, int depth, String url)
+    {
+        String newLine = HTMLParser.ParseHtmlPara(line);
+        if (newLine.contains(searchString))
         {
-            if (result.text().contains(searchString))
-            {
-                searchStringList.add(new SearchStringDetails(url,doc.title(), result.text(), depth));
-                //System.out.println("New Line : " + result.text());
-
-                //System.out.println(searchStringList.get(searchStringList.size()-1).toString());
-            }
+            searchStringList.add(new SearchStringDetails(url, doc.title(), newLine, depth));
+            //System.out.println("New Line : " + result.text());
+            //System.out.println(searchStringList.get(searchStringList.size()-1).toString());
         }
     }
 }

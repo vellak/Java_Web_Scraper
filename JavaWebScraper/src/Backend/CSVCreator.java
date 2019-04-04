@@ -8,32 +8,37 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-/**
- * The type Csv creator.
- */
-public class CSVCreator {
 
 
-    private List<SearchStringDetails> SearchString;
+public class CSVCreator
+{
+    static void ConvertToCsv(List<String> listOfStrings)
+    {
+        System.out.println("inside the ConvertToCsv() Method");
+        String filePath = Gui.chooseFileLocationToSave();
 
-    static void ConvertToCsv(List<String> listOfStrings) {
-        String filePath = null;
-        if (Gui.chooseFileLocationToSave()!= null) {
+        try
+        {
+            System.out.println("inside the ConvertToCsv()  Try Block");
 
-            filePath = Gui.chooseFileLocationToSave();
-        }
-        try{
+            assert filePath != null;
+            PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(filePath +".csv", true)));
 
-            PrintWriter  pw= new PrintWriter( new BufferedWriter(new FileWriter(filePath, true)));
-            for (String item: listOfStrings) {
+            for (String item : listOfStrings)
+            {
+                System.out.println("inside the ConvertToCsv()  Try Block{}  Loop");
                 pw.println(item);
                 pw.flush();
             }
             pw.close();
             GUI.Gui.showCSVSaved();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             e.printStackTrace();
-        }catch (NullPointerException e){
+        }
+        catch (NullPointerException e)
+        {
             e.printStackTrace();
             Gui.errorNull("File path is null");
         }

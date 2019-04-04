@@ -3,7 +3,8 @@ package Backend;
 /**
  * The type Search string details.
  */
-public class SearchStringDetails {
+public class SearchStringDetails
+{
 
     private String URL;
     private String Title;
@@ -19,7 +20,8 @@ public class SearchStringDetails {
      * @param HTMLCode the html code
      * @param depth    the depth
      */
-    SearchStringDetails(String URL, String title, String HTMLCode, int depth) {
+    SearchStringDetails(String URL, String title, String HTMLCode, int depth)
+    {
         this.URL = URL;
         Title = title;
         this.HTMLCode = HTMLCode;
@@ -31,7 +33,8 @@ public class SearchStringDetails {
      *
      * @return the depth
      */
-    public int getDepth() {
+    public int getDepth()
+    {
         return Depth;
     }
 
@@ -40,7 +43,8 @@ public class SearchStringDetails {
      *
      * @param depth the depth
      */
-    public void setDepth(int depth) {
+    public void setDepth(int depth)
+    {
         Depth = depth;
     }
 
@@ -49,7 +53,8 @@ public class SearchStringDetails {
      *
      * @return the html code
      */
-    public String getHTMLCode() {
+    public String getHTMLCode()
+    {
         return HTMLCode;
     }
 
@@ -58,7 +63,8 @@ public class SearchStringDetails {
      *
      * @param HTMLCode the html code
      */
-    public void setHTMLCode(String HTMLCode) {
+    public void setHTMLCode(String HTMLCode)
+    {
         this.HTMLCode = HTMLCode;
     }
 
@@ -67,7 +73,8 @@ public class SearchStringDetails {
      *
      * @return the title
      */
-    public String getTitle() {
+    public String getTitle()
+    {
         return Title;
     }
 
@@ -76,7 +83,8 @@ public class SearchStringDetails {
      *
      * @param title the title
      */
-    public void setTitle(String title) {
+    public void setTitle(String title)
+    {
         Title = title;
     }
 
@@ -85,7 +93,8 @@ public class SearchStringDetails {
      *
      * @return the url
      */
-    public String getURL() {
+    public String getURL()
+    {
         return URL;
     }
 
@@ -94,22 +103,25 @@ public class SearchStringDetails {
      *
      * @param URL the url
      */
-    public void setURL(String URL) {
+    public void setURL(String URL)
+    {
         this.URL = URL;
     }
 
 
-
     @Override
-    public String toString() {
-        return  "URL='" + URL +
+    public String toString()
+    {
+        return "URL='" + URL +
                 ", Title='" + Title +
-                ", HTMLCode='" + HTMLCode+
+                ", HTMLCode='" + HTMLCode +
                 ", Depth=" + Depth +
                 '}';
     }
-    public String toStringFormatted() {
-        return  "URL='" + URL + "\n" +
+
+    public String toStringFormatted()
+    {
+        return "URL='" + URL + "\n" +
                 ", Title='" + Title + "\n" +
                 ", HTMLCode='" + HTMLCode + "\n" +
                 ", Depth=" + Depth +
@@ -121,11 +133,12 @@ public class SearchStringDetails {
      *
      * @return the string
      */
-    public String toHTML(){
+    public String toHTML()
+    {
         return
                 "<p>" + Title + "</p>" + "<br> " +
-                "<p>" +URL + "</P>" + "<br>"+
-                "<p>" + HTMLCode + "</p>" + "<br>" +
-                "<P> Depth=" + Depth + "</p>";
+                        "<p>" + URL + "</P>" + "<br>" +
+                        "<p>" + HTMLCode + "</p>" + "<br>" +
+                        "<P> Depth=" + Depth + "</p>";
     }
 }

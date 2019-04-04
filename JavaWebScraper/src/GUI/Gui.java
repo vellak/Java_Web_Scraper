@@ -13,7 +13,7 @@ import java.io.File;
  */
 public class Gui extends JFrame
 {
-    private static JPanel RootPanel;
+    private JPanel RootPanel;
     private JButton CSVButton;
     private JButton Search;
     private JTextField URL;
@@ -21,10 +21,8 @@ public class Gui extends JFrame
     private JEditorPane DataDisplay;
     private JTextField SearchString;
 
-
     public Gui()
     {
-
         add(RootPanel);
         setTitle("Web Scraper By Keith Vella");
         setSize(400, 500);
@@ -32,42 +30,38 @@ public class Gui extends JFrame
 
         DepthOfSearch.getDocument().addDocumentListener(new DocListener());
 
-        Search.addActionListener(e -> Controller.Scrape(DataDisplay, URL, DepthOfSearch, SearchString));
+        Search.addActionListener(e -> {
+            Controller.Scrape(DataDisplay, URL, DepthOfSearch, SearchString);
+            System.out.println("Search is over");
+        });
 
         CSVButton.addActionListener(e -> Controller.createCsv());
-
     }
-
     public static void showCSVSaved()
     {
         JOptionPane.showMessageDialog(null, "CSV File Saved");
     }
-
     public static void errorNull(String error)
     {
         JOptionPane.showMessageDialog(null, error);
     }
-
     public static String chooseFileLocationToSave()
     {
         JFileChooser fileChooser = new JFileChooser();
 
         fileChooser.setDialogTitle("");
-        fileChooser.setCurrentDirectory(new File("c:\\temp"));
+        fileChooser.setCurrentDirectory(new File("c:\\"));
         fileChooser.setFileFilter(new FileNameExtensionFilter("text Files", "txt"));
 
-        int returnVal = fileChooser.showOpenDialog(null);
-        if (returnVal == JFileChooser.APPROVE_OPTION)
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION)
         {
             File file = fileChooser.getSelectedFile();
             return file.getAbsolutePath();
         }
         return null;
     }
-
     private void DoSWarning()
     {
-
         // checks for invalid values
         try
         {
@@ -80,13 +74,11 @@ public class Gui extends JFrame
             JOptionPane.showMessageDialog(null, "Enter a number!", "Input Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-
     /**
      * The type Doc listener.
      */
     class DocListener implements DocumentListener
     {
-
         @Override
         public void insertUpdate(DocumentEvent e)
         {
@@ -94,10 +86,7 @@ public class Gui extends JFrame
         }
 
         @Override
-        public void removeUpdate(DocumentEvent e)
-        {
-
-        }
+        public void removeUpdate(DocumentEvent e){}
 
         @Override
         public void changedUpdate(DocumentEvent e)
