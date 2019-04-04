@@ -55,7 +55,7 @@
               <text value="2"/>
             </properties>
           </component>
-          <component id="4af7f" class="javax.swing.JTextField" binding="searchString">
+          <component id="4af7f" class="javax.swing.JTextField" binding="SearchString">
             <constraints/>
             <properties>
               <minimumSize width="100" height="30"/>
