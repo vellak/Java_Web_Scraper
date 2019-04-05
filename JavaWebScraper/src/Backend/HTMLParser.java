@@ -1,17 +1,33 @@
 package Backend;
 
-public class HTMLParser
+class HTMLParser
 {
+    String[] ParseHtmlLink(String line)
+    {
 
-    public static String ParseHtmlLink(String line){
-
-        if (line.contains("href="))
+        if (line != null)
         {
-            //          Step 1                    Step 2
-            return line.split("href=\"")[1].split("\">")[0];
+            System.out.println("Line is not Null");
 
+            if (line.contains("href="))
+            {
+                try
+                {
+                    //          Step 1                            Step 2
+                    String step1 = line.split("href=\"", 2)[1];
+                    //System.out.println("Step1 " +step1);
 
-        } else return null;
+                    String[] step2 = step1.split("\"", 2);
+                    //System.out.println("Step2 " +step2);
+
+                    return step2;
+                } catch (ArrayIndexOutOfBoundsException e)
+                {
+                    System.err.println("The Link you tried to Parse Failed Miserably   ||" + line);
+
+                }
+            }
+        }
         // How the String splitting works
             /*
             Text change over time:
@@ -34,26 +50,27 @@ public class HTMLParser
             ==========
                 /youtube/answer/2797466?hl=en&amp;ref_topic=2778546
              */
+        return new String[0];
     }
 
-    public static void main(String[] args)
+    String[] ParseHtmlPara(String line)
     {
-
-        System.out.println(ParseHtmlPara("blblblblbllblblb<p class= yayaydya>  Hello World! </p>"));
-        System.out.println(ParseHtmlLink("<a class=\"sibling-link\" href=\"/youtube/answer/2797466?hl=en&amp;ref_topic=2778546\"></a>"));
-    }
-
-    public static String ParseHtmlPara(String line)
-    {
-        if (line.contains("<p"))
+        if (line != null)
         {
+            System.out.println("Line is not Null");
 
-            //Step 1               Step 2              Step 3
-            return line.split("<p")[1].split(">")[1].split("</p")[0];
-
+            if (line.contains("<p"))
+            {
+                try
+                {
+                    //          Step 1               Step 2              Step 3
+                    return line.split("<p", 2)[1].split(">", 2)[1].split("</p", 2);
+                } catch (ArrayIndexOutOfBoundsException e)
+                {
+                    System.err.println("The HTML Code you tried to Parse Failed Miserably   ||" + line);
+                }
+            }
         }
-
-        else return null;
         // How the String splitting works
             /*
             Text change over time:
@@ -91,6 +108,7 @@ public class HTMLParser
 
            ~~~RETURN THIS STRING~~~
              */
-    }
 
+        return new String[0];
+    }
 }

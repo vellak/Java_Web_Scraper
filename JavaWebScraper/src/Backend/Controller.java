@@ -26,8 +26,10 @@ public class Controller
 
     public static void Scrape(JEditorPane pane, JTextField URL, JTextField DepthOfSearch, JTextField searchString)
     {
+        System.out.println("=============================");
+        System.out.println("RUNNING SCRAPER");
+        System.out.println("=============================");
         scraper.Scrape(URL.getText(), Integer.parseInt(DepthOfSearch.getText()), searchString.getText(), 0);
-
 
         for (String url : scraper.getListOfWebsitesVisited())
         {

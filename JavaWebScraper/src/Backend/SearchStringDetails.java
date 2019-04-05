@@ -7,7 +7,6 @@ public class SearchStringDetails
 {
 
     private String URL;
-    private String Title;
     private String HTMLCode;
     private int Depth;
 
@@ -15,15 +14,14 @@ public class SearchStringDetails
     /**
      * Instantiates a new Search string details.
      *
-     * @param URL      the url
-     * @param title    the title
+     * @param URL      the url\
      * @param HTMLCode the html code
      * @param depth    the depth
      */
-    SearchStringDetails(String URL, String title, String HTMLCode, int depth)
+    SearchStringDetails(String URL, String HTMLCode, int depth)
     {
         this.URL = URL;
-        Title = title;
+
         this.HTMLCode = HTMLCode;
         Depth = depth;
     }
@@ -68,25 +66,6 @@ public class SearchStringDetails
         this.HTMLCode = HTMLCode;
     }
 
-    /**
-     * Gets title.
-     *
-     * @return the title
-     */
-    public String getTitle()
-    {
-        return Title;
-    }
-
-    /**
-     * Sets title.
-     *
-     * @param title the title
-     */
-    public void setTitle(String title)
-    {
-        Title = title;
-    }
 
     /**
      * Gets url.
@@ -113,7 +92,7 @@ public class SearchStringDetails
     public String toString()
     {
         return "URL='" + URL +
-                ", Title='" + Title +
+
                 ", HTMLCode='" + HTMLCode +
                 ", Depth=" + Depth +
                 '}';
@@ -122,7 +101,7 @@ public class SearchStringDetails
     public String toStringFormatted()
     {
         return "URL='" + URL + "\n" +
-                ", Title='" + Title + "\n" +
+
                 ", HTMLCode='" + HTMLCode + "\n" +
                 ", Depth=" + Depth +
                 '}';
@@ -136,9 +115,8 @@ public class SearchStringDetails
     public String toHTML()
     {
         return
-                "<p>" + Title + "</p>" + "<br> " +
-                        "<p>" + URL + "</P>" + "<br>" +
-                        "<p>" + HTMLCode + "</p>" + "<br>" +
-                        "<P> Depth=" + Depth + "</p>";
+                "<p>" + URL + "</P>" + "<br>" +
+                "<p>" + HTMLCode + "</p>" + "<br>" +
+                "<P> Depth=" + Depth + "</p>";
     }
 }

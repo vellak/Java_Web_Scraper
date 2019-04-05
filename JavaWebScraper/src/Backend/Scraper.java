@@ -1,12 +1,9 @@
 package Backend;
 
-import org.jetbrains.annotations.NotNull;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,8 +19,8 @@ public class Scraper
     /**
      * The Search string list.
      */
-    List<SearchStringDetails> searchStringList = new ArrayList<>();
-
+    private List<SearchStringDetails> searchStringList = new ArrayList<>();
+    HTMLParser parser = new HTMLParser();
 
     /**
      * Scrape.
@@ -33,24 +30,45 @@ public class Scraper
      * @param searchString      the search string
      * @param currentDepth      the current depth
      */
-    public void Scrape(String URL, int depthOfSearchText, String searchString, int currentDepth)
+    void Scrape(String URL, int depthOfSearchText, String searchString, int currentDepth)
+    {
+        String line = null;
+        line = WebsiteTraverser(URL, line);
+        getLinks(line, depthOfSearchText, searchString, currentDepth);
+        getSearchString(line, searchString, currentDepth, URL);
+
+    }
+
+    private String WebsiteTraverser(String URL, String line)
     {
         try
         {
             BufferedReader br = new BufferedReader(new InputStreamReader(new URL(URL).openStream()));
 
-            String line;
+
+            // converts website into a single line
+            StringBuilder builder = new StringBuilder();
             while ((line = br.readLine()) != null)
             {
-                GetSearchString(line, searchString, depthOfSearchText, URL);
-                getLinks(line,depthOfSearchText, searchString, currentDepth);
+                //System.out.println("Building String");
+                builder.append(line);
+
+                //GetSearchString(line, searchString, depthOfSearchText, URL);
             }
+            line = builder.toString();
+
+            //System.out.println("Line: " + line);
+
 
             br.close();
+        } catch (MalformedURLException e)
+        {
+            System.err.println("Malformed URL Found, I don't know, why this, happens");
         } catch (IOException e)
         {
             e.printStackTrace();
         }
+        return line;
     }
 
     /**
@@ -58,36 +76,53 @@ public class Scraper
      *
      * @return the search string list
      */
-    public List<SearchStringDetails> getSearchStringList()
+    List<SearchStringDetails> getSearchStringList()
     {
 
         return searchStringList;
     }
 
-    public List<String> getListOfWebsitesVisited()
+    List<String> getListOfWebsitesVisited()
     {
         return listOfWebsitesVisited;
     }
 
     private void getLinks(String line, int depthOfSearchText, String searchString, int currentDepth)
     {
-        String href = HTMLParser.ParseHtmlLink(line);
-        System.out.println(href);
-        listOfWebsitesVisited.add(href);
-        // Calls search within the next depth of searches;
-        if (currentDepth < depthOfSearchText)
+
+        String[] result = parser.ParseHtmlLink(line);
+        if (result != null)
         {
-            Scrape(href, depthOfSearchText, searchString, currentDepth + 1);
+            String newLine = result[0];
+
+            if (!listOfWebsitesVisited.contains(newLine))
+            {
+                System.out.println(newLine);
+                listOfWebsitesVisited.add(newLine);
+                getLinks(result[1], depthOfSearchText, searchString, currentDepth);
+
+                if (depthOfSearchText > currentDepth)
+                {
+                    Scrape(newLine, depthOfSearchText, searchString, currentDepth + 1);
+                }
+            }
         }
     }
 
-    private void GetSearchString(String line, String searchString, int depth, String url)
+    private void getSearchString(String line, String searchString, int depth, String url)
     {
-        String newLine = HTMLParser.ParseHtmlPara(line);
-        if (newLine.contains(searchString))
+        String[] result = parser.ParseHtmlPara(line);
+
+        if (result != null)
         {
-            searchStringList.add(new SearchStringDetails(url, doc.title(), newLine, depth));
-            //System.out.println("New Line : " + result.text());
+            String newLine = result[0];
+            if (newLine.contains(searchString))
+            {
+                searchStringList.add(new SearchStringDetails(url, newLine, depth));
+            }
+            getSearchString(result[1], searchString, depth, url);
+            //System.out.println("NEW STRING FOUND " +result[0]);
+            //System.out.println("New Line : "  );
             //System.out.println(searchStringList.get(searchStringList.size()-1).toString());
         }
     }
