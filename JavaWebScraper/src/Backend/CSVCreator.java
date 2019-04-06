@@ -32,7 +32,7 @@ public class CSVCreator
                 pw.flush();
             }
             pw.close();
-            GUI.Gui.showCSVSaved();
+            Gui.showCSVSaved();
         } catch (AccessDeniedException e){
             Gui.AccessDenied();
             ConvertToCsv(listOfStrings);
