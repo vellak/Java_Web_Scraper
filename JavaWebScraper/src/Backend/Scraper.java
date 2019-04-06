@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class Scraper
      */
     void Scrape(String URL, int depthOfSearchText, String searchString, int currentDepth)
     {
+        listOfWebsitesVisited.add(URL);
         String line = null;
         line = WebsiteTraverser(URL, line);
         getLinks(line, depthOfSearchText, searchString, currentDepth);
@@ -43,8 +45,10 @@ public class Scraper
     {
         try
         {
-            BufferedReader br = new BufferedReader(new InputStreamReader(new URL(URL).openStream()));
+            URLConnection connection = new URL(URL).openConnection();
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77 Safari/537.36");
 
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
             // converts website into a single line
             StringBuilder builder = new StringBuilder();
@@ -55,8 +59,7 @@ public class Scraper
 
                 //GetSearchString(line, searchString, depthOfSearchText, URL);
             }
-            line = builder.toString();
-
+            line = parser.CleanHTML(builder.toString());
             //System.out.println("Line: " + line);
 
 
@@ -98,9 +101,13 @@ public class Scraper
             if (!listOfWebsitesVisited.contains(newLine))
             {
                 System.out.println(newLine);
-                listOfWebsitesVisited.add(newLine);
-                getLinks(result[1], depthOfSearchText, searchString, currentDepth);
-
+                try
+                {
+                    getLinks(result[1], depthOfSearchText, searchString, currentDepth);
+                } catch (ArrayIndexOutOfBoundsException e)
+                {
+                    System.err.println("ERROR THERE WAS AN ARRAY OUT OF BOUNDS ERROR " + e.getMessage());
+                }
                 if (depthOfSearchText > currentDepth)
                 {
                     Scrape(newLine, depthOfSearchText, searchString, currentDepth + 1);
@@ -116,14 +123,27 @@ public class Scraper
         if (result != null)
         {
             String newLine = result[0];
-            if (newLine.contains(searchString))
+            if (newLine.contains(searchString) && newLine.length() < 200)
             {
                 searchStringList.add(new SearchStringDetails(url, newLine, depth));
             }
-            getSearchString(result[1], searchString, depth, url);
+            try
+            {
+                getSearchString(result[1], searchString, depth, url);
+            } catch (ArrayIndexOutOfBoundsException e)
+            {
+                System.err.println("ERROR THERE WAS AN ARRAY OUT OF BOUNDS ERROR " + e.getMessage());
+
+            }
             //System.out.println("NEW STRING FOUND " +result[0]);
             //System.out.println("New Line : "  );
             //System.out.println(searchStringList.get(searchStringList.size()-1).toString());
         }
+    }
+
+    public void resetLists()
+    {
+        listOfWebsitesVisited.clear();
+        searchStringList.clear();
     }
 }

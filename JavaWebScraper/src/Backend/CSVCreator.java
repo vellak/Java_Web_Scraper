@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 
@@ -27,13 +28,15 @@ public class CSVCreator
             for (String item : listOfStrings)
             {
                 System.out.println("inside the ConvertToCsv()  Try Block{}  Loop");
-                pw.println(item);
+                pw.println(item.split(",", 1)[0]);
                 pw.flush();
             }
             pw.close();
             GUI.Gui.showCSVSaved();
-        }
-        catch (IOException e)
+        } catch (AccessDeniedException e){
+            Gui.AccessDenied();
+            ConvertToCsv(listOfStrings);
+        } catch (IOException e)
         {
             e.printStackTrace();
         }

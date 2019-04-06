@@ -91,17 +91,19 @@ public class SearchStringDetails
     @Override
     public String toString()
     {
-        return "URL='" + URL +
+        String url = getURL();
+        String line =getHTMLCode().replaceAll(",", ".");
+        int depth = getDepth();
 
-                ", HTMLCode='" + HTMLCode +
-                ", Depth=" + Depth +
+        return "URL='" + url +
+                ", Line Found='" + line +
+                ", Depth=" + depth +
                 '}';
     }
 
     public String toStringFormatted()
     {
         return "URL='" + URL + "\n" +
-
                 ", HTMLCode='" + HTMLCode + "\n" +
                 ", Depth=" + Depth +
                 '}';

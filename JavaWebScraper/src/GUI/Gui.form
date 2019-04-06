@@ -9,32 +9,27 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="29210" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+      <grid id="29210" binding="CentreArea" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties>
           <autoscrolls value="true"/>
           <minimumSize width="200" height="200"/>
         </properties>
+        <clientProperties>
+          <html.disable class="java.lang.Boolean" value="false"/>
+        </clientProperties>
         <border type="none"/>
         <children>
-          <scrollpane id="26227">
-            <constraints/>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </scrollpane>
-          <component id="3c2b8" class="javax.swing.JEditorPane" binding="DataDisplay">
-            <constraints/>
+          <component id="d4410" class="javax.swing.JTable" binding="DataDisplay">
+            <constraints border-constraint="Center"/>
             <properties>
-              <background color="-3618616"/>
-              <minimumSize width="200" height="200"/>
-              <preferredSize width="200" height="200"/>
-              <text value=""/>
+              <autoCreateRowSorter value="false"/>
+              <fillsViewportHeight value="true"/>
             </properties>
           </component>
         </children>
       </grid>
-      <grid id="8b340" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+      <grid id="8b340" binding="Top_Bar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints border-constraint="North"/>
         <properties/>
         <border type="none"/>

@@ -4,10 +4,9 @@ class HTMLParser
 {
     String[] ParseHtmlLink(String line)
     {
-
         if (line != null)
         {
-            System.out.println("Line is not Null");
+            //System.out.println("Line is not Null");
 
             if (line.contains("href="))
             {
@@ -24,7 +23,6 @@ class HTMLParser
                 } catch (ArrayIndexOutOfBoundsException e)
                 {
                     System.err.println("The Link you tried to Parse Failed Miserably   ||" + line);
-
                 }
             }
         }
@@ -50,7 +48,7 @@ class HTMLParser
             ==========
                 /youtube/answer/2797466?hl=en&amp;ref_topic=2778546
              */
-        return new String[0];
+        return null;
     }
 
     String[] ParseHtmlPara(String line)
@@ -64,7 +62,12 @@ class HTMLParser
                 try
                 {
                     //          Step 1               Step 2              Step 3
-                    return line.split("<p", 2)[1].split(">", 2)[1].split("</p", 2);
+                    String step1 = line.split("<p", 2)[1];
+                    String step2 = step1.split(">", 2)[1];
+                    String[] step3 = step2.split("</p", 2);
+
+                    System.out.println(step3[0]);
+                    return step3;
                 } catch (ArrayIndexOutOfBoundsException e)
                 {
                     System.err.println("The HTML Code you tried to Parse Failed Miserably   ||" + line);
@@ -109,6 +112,28 @@ class HTMLParser
            ~~~RETURN THIS STRING~~~
              */
 
-        return new String[0];
+        return null;
+    }
+
+    public String CleanHTML(String lineDirty)
+    {
+        try
+        {
+            lineDirty = lineDirty.replaceAll("<path", "");
+            lineDirty = lineDirty.replaceAll("<strong>", "");
+            lineDirty = lineDirty.replaceAll("</strong", "");
+            lineDirty = lineDirty.replaceAll("</svg>", "");
+            lineDirty = lineDirty.replaceAll("</button>", "");
+            lineDirty = lineDirty.replaceAll("", "");
+            lineDirty = lineDirty.replaceAll("<button", "");
+            lineDirty = lineDirty.replaceAll("<a", "");
+            lineDirty = lineDirty.replaceAll("</a>", "");
+            lineDirty = lineDirty.replaceAll("<div>", "");
+            lineDirty = lineDirty.replaceAll("<div", "");
+            return lineDirty;
+        } catch (NullPointerException e)
+        {
+            return null;
+        }
     }
 }

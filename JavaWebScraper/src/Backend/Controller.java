@@ -24,8 +24,9 @@ public class Controller
         return strings;
     }
 
-    public static void Scrape(JEditorPane pane, JTextField URL, JTextField DepthOfSearch, JTextField searchString)
+    public static void Scrape(JTable pane, JTextField URL, JTextField DepthOfSearch, JTextField searchString)
     {
+        scraper.resetLists();
         System.out.println("=============================");
         System.out.println("RUNNING SCRAPER");
         System.out.println("=============================");
@@ -41,7 +42,7 @@ public class Controller
             System.out.println(details.toString());
         }
 
-        pane.setText(pane.getText() + "\n" + scraper.getSearchStringList());
+
     }
 
 }
