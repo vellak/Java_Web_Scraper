@@ -1,6 +1,6 @@
 package Backend;
 
-import GUI.Gui;
+import Frontend.Gui;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

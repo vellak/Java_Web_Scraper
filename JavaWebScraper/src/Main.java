@@ -1,20 +1,13 @@
-import GUI.Gui;
+import Backend.Controller;
+import Frontend.Gui;
 
-/**
- * The type Main.
- */
+
 public class Main
 {
-
-    /**
-     * The entry point of application.
-     *
-     * @param args the input arguments
-     */
     public static void main(String[] args)
     {
-        Gui gui = new Gui();
-
-        gui.setVisible(true);
+        Gui gui;
+        gui = new Gui(900,600, new Controller() );
+        gui.run();
     }
 }

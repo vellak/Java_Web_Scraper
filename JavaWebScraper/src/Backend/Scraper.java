@@ -23,14 +23,7 @@ public class Scraper
     private List<SearchStringDetails> searchStringList = new ArrayList<>();
     HTMLParser parser = new HTMLParser();
 
-    /**
-     * Scrape.
-     *
-     * @param URL               the URL
-     * @param depthOfSearchText the depth of search URL
-     * @param searchString      the search string
-     * @param currentDepth      the current depth
-     */
+
     void Scrape(String URL, int depthOfSearchText, String searchString, int currentDepth)
     {
         listOfWebsitesVisited.add(URL);
@@ -74,11 +67,7 @@ public class Scraper
         return line;
     }
 
-    /**
-     * Gets search string list.
-     *
-     * @return the search string list
-     */
+
     List<SearchStringDetails> getSearchStringList()
     {
 
@@ -123,7 +112,7 @@ public class Scraper
         if (result != null)
         {
             String newLine = result[0];
-            if (newLine.contains(searchString) && newLine.length() < 200)
+            if (newLine.contains(searchString) && newLine.length() < 400)
             {
                 searchStringList.add(new SearchStringDetails(url, newLine, depth));
             }

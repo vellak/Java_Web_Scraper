@@ -115,7 +115,7 @@ class HTMLParser
         return null;
     }
 
-    public String CleanHTML(String lineDirty)
+    String CleanHTML(String lineDirty)
     {
         try
         {
